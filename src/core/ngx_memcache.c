@@ -17,7 +17,7 @@
 #include <openssl/md5.h>
 
 #define MC_INVALID_HASH ((ngx_uint_t) - 1)
-#define MC_REQ_POOL_SIZE 1024
+#define MC_REQ_POOL_SIZE 2048
 #define SHA256_KEY_LENGTH 64
 
 static int mc_sndbuf_len = 256 * 1024;
