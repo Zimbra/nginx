@@ -15,7 +15,9 @@
 
 
 typedef struct {
+    // Zimbra customizations start here (Jira Tickets: )
     size_t       client_buffer_size;
+    // Zimbra customizations end here
 
     ngx_str_t    capability;
     ngx_str_t    starttls_capability;
@@ -26,7 +28,9 @@ typedef struct {
 
     ngx_array_t  capabilities;
 
+    // Zimbra customizations start here (Jira Tickets: )
     ngx_str_t    greeting;
+    // Zimbra end start here
 } ngx_mail_pop3_srv_conf_t;
 
 
