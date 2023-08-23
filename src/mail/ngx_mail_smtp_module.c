@@ -39,6 +39,7 @@ static ngx_str_t  ngx_mail_smtp_auth_methods_names[] = {
 
 static ngx_mail_protocol_t  ngx_mail_smtp_protocol = {
     ngx_string("smtp"),
+    ngx_string("\x04smtp"),
     { 25, 465, 587, 0 },
     NGX_MAIL_SMTP_PROTOCOL,
 
@@ -47,10 +48,12 @@ static ngx_mail_protocol_t  ngx_mail_smtp_protocol = {
     ngx_mail_smtp_parse_command,
     ngx_mail_smtp_auth_state,
 
+    // Zimbra customizations start here (Jira Tickets: )
     ngx_string("451 4.3.2 Internal server error" CRLF),
     ngx_string("421 4.7.1 SSL certificate error" CRLF),
     ngx_string("421 4.7.1 No required SSL certificate" CRLF),
     ngx_string("") /* zimbra add a quite_msg field in mail protocol */
+    // Zimbra customizations end here
 };
 
 
