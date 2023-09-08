@@ -8,4 +8,4 @@ Issues should be reported via [Zimbra's bugzilla](https://bugzilla.zimbra.com)
 zimbra/develop
 
 ## Release tags
-zimbra-release-1.19.0
+zimbra-release-1.24.0
