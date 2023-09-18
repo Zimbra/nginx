@@ -770,7 +770,7 @@ invalid:
 
     for ( /* void */ ; p < s->buffer->last; p++) {
         if (*p == LF) {
-            s->state = sw_start;
+            s->state = swi_start;
             s->buffer->pos = p + 1;
 
             /* detect non-synchronizing literals */
@@ -1477,15 +1477,6 @@ done:
 
     s->buffer->pos = p + 1;
 
-    if (s->arg_start) {
-        arg = ngx_array_push(&s->args);
-        if (arg == NULL) {
-            return NGX_ERROR;
-        }
-        arg->len = s->arg_end - s->arg_start;
-        arg->data = s->arg_start;
-        s->arg_start = NULL;
-    }
 
     return NGX_OK;
 
