@@ -33,10 +33,11 @@ typedef union {
 #if (NGX_HAVE_IP_PKTINFO)
     struct in_pktinfo     pkt;
 #endif
-
-#if (NGX_HAVE_INET6 && NGX_HAVE_IPV6_RECVPKTINFO)
-    struct in6_pktinfo    pkt6;
-#endif
+// AMB : Code is commented in order to move compilation forward and detect any errors that arise.
+// See https://trac.nginx.org/nginx/ticket/2312
+//#if (NGX_HAVE_INET6 && NGX_HAVE_IPV6_RECVPKTINFO)
+//    struct in6_pktinfo    pkt6;
+//#endif
 } ngx_addrinfo_t;
 
 size_t ngx_set_srcaddr_cmsg(struct cmsghdr *cmsg,
