@@ -803,7 +803,7 @@ found:
     rc = uscf->peer.init(r, uscf);
     if (rc != NGX_OK) {
         if (rc == NGX_AGAIN) return; /* added by zimbra to support async peer init */
-// Zimbra customizations start here (Jira Tickets: )		
+// Zimbra customizations end here (Jira Tickets: )		
         ngx_http_upstream_finalize_request(r, u,
                                            NGX_HTTP_INTERNAL_SERVER_ERROR);
         return;
