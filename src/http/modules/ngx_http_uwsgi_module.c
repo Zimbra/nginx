@@ -2557,17 +2557,17 @@ ngx_http_uwsgi_set_ssl(ngx_conf_t *cf, ngx_http_uwsgi_loc_conf_t *uwcf)
             uwcf->upstream.ssl_passwords =
                   ngx_ssl_preserve_passwords(cf, uwcf->upstream.ssl_passwords);
             if (uwcf->upstream.ssl_passwords == NULL) {
-            return NGX_ERROR;
-        }
+                return NGX_ERROR;
+            }
 
         } else {
             if (ngx_ssl_certificate(cf, uwcf->upstream.ssl,
                                     &uwcf->upstream.ssl_certificate->value,
                                     &uwcf->upstream.ssl_certificate_key->value,
                                     uwcf->upstream.ssl_passwords)
-        != NGX_OK)
-    {
-        return NGX_ERROR;
+                != NGX_OK)
+            {
+                return NGX_ERROR;
             }
         }
     }

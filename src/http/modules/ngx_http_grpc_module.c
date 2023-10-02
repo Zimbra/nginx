@@ -3187,9 +3187,9 @@ ngx_http_grpc_parse_fragment(ngx_http_request_t *r, ngx_http_grpc_ctx_t *ctx,
 
             if (ctx->field_huffman) {
                 if (ngx_http_huff_decode(&ctx->field_state, p, size,
-                                            &ctx->field_end,
-                                            ctx->field_rest == 0,
-                                            r->connection->log)
+                                         &ctx->field_end,
+                                         ctx->field_rest == 0,
+                                         r->connection->log)
                     != NGX_OK)
                 {
                     ngx_log_error(NGX_LOG_ERR, r->connection->log, 0,
@@ -3296,9 +3296,9 @@ ngx_http_grpc_parse_fragment(ngx_http_request_t *r, ngx_http_grpc_ctx_t *ctx,
 
             if (ctx->field_huffman) {
                 if (ngx_http_huff_decode(&ctx->field_state, p, size,
-                                            &ctx->field_end,
-                                            ctx->field_rest == 0,
-                                            r->connection->log)
+                                         &ctx->field_end,
+                                         ctx->field_rest == 0,
+                                         r->connection->log)
                     != NGX_OK)
                 {
                     ngx_log_error(NGX_LOG_ERR, r->connection->log, 0,
@@ -4976,17 +4976,17 @@ ngx_http_grpc_set_ssl(ngx_conf_t *cf, ngx_http_grpc_loc_conf_t *glcf)
             glcf->upstream.ssl_passwords =
                   ngx_ssl_preserve_passwords(cf, glcf->upstream.ssl_passwords);
             if (glcf->upstream.ssl_passwords == NULL) {
-            return NGX_ERROR;
-        }
+                return NGX_ERROR;
+            }
 
         } else {
             if (ngx_ssl_certificate(cf, glcf->upstream.ssl,
                                     &glcf->upstream.ssl_certificate->value,
                                     &glcf->upstream.ssl_certificate_key->value,
                                     glcf->upstream.ssl_passwords)
-        != NGX_OK)
-    {
-        return NGX_ERROR;
+                != NGX_OK)
+            {
+                return NGX_ERROR;
             }
         }
     }

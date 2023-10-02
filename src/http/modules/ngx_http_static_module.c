@@ -183,7 +183,7 @@ ngx_http_static_handler(ngx_http_request_t *r)
                                                  r->uri.len, NGX_ESCAPE_URI);
 
             } else {
-            last = ngx_copy(location, r->uri.data, r->uri.len);
+                last = ngx_copy(location, r->uri.data, r->uri.len);
             }
 
             *last = '/';
@@ -261,8 +261,8 @@ ngx_http_static_handler(ngx_http_request_t *r)
     b->file_pos = 0;
     b->file_last = of.size;
 
-    b->in_file = b->file_last ? 1: 0;
-    b->last_buf = (r == r->main) ? 1: 0;
+    b->in_file = b->file_last ? 1 : 0;
+    b->last_buf = (r == r->main) ? 1 : 0;
     b->last_in_chain = 1;
     b->sync = (b->last_buf || b->in_file) ? 0 : 1;
 

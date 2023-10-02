@@ -827,7 +827,7 @@ static ngx_int_t
 ngx_http_variable_headers_internal(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data, u_char sep)
 {
-    size_t             len;
+    size_t            len;
     u_char           *p;
     ngx_table_elt_t  *h, *th;
 
@@ -993,13 +993,13 @@ ngx_http_variable_unknown_header(ngx_http_request_t *r,
     if (h->next == NULL) {
 
         v->len = h->value.len;
-            v->valid = 1;
-            v->no_cacheable = 0;
-            v->not_found = 0;
+        v->valid = 1;
+        v->no_cacheable = 0;
+        v->not_found = 0;
         v->data = h->value.data;
 
-            return NGX_OK;
-        }
+        return NGX_OK;
+    }
 
     p = ngx_pnalloc(r->pool, len);
     if (p == NULL) {

@@ -326,7 +326,7 @@ header_in(r, key)
         if (i >= part->nelts) {
             if (part->next == NULL) {
                 break;
-        }
+            }
 
             part = part->next;
             h = part->elts;
@@ -349,40 +349,39 @@ header_in(r, key)
     found:
 
     if (*ph == NULL) {
-            XSRETURN_UNDEF;
-        }
+        XSRETURN_UNDEF;
+    }
 
     if ((*ph)->next == NULL) {
-            ngx_http_perl_set_targ((*ph)->value.data, (*ph)->value.len);
+        ngx_http_perl_set_targ((*ph)->value.data, (*ph)->value.len);
+        goto done;
+    }
 
-            goto done;
-        }
-
-        size = - (ssize_t) (sizeof("; ") - 1);
+    size = - (ssize_t) (sizeof("; ") - 1);
 
     for (h = *ph; h; h = h->next) {
         size += h->value.len + sizeof("; ") - 1;
-        }
+    }
 
-        value = ngx_pnalloc(r->pool, size);
-        if (value == NULL) {
-            ctx->error = 1;
-            croak("ngx_pnalloc() failed");
-        }
+    value = ngx_pnalloc(r->pool, size);
+    if (value == NULL) {
+        ctx->error = 1;
+        croak("ngx_pnalloc() failed");
+    }
 
-        p = value;
+    p = value;
 
     for (h = *ph; h; h = h->next) {
         p = ngx_copy(p, h->value.data, h->value.len);
 
         if (h->next == NULL) {
-                break;
-            }
-
-            *p++ = sep; *p++ = ' ';
+            break;
         }
 
-        ngx_http_perl_set_targ(value, size);
+        *p++ = sep; *p++ = ' ';
+    }
+
+    ngx_http_perl_set_targ(value, size);
 
     done:
 

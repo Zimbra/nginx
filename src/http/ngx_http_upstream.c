@@ -1515,8 +1515,8 @@ ngx_http_upstream_check_broken_connection(ngx_http_request_t *r,
 static void
 ngx_http_upstream_connect(ngx_http_request_t *r, ngx_http_upstream_t *u)
 {
-    ngx_int_t          rc;
-    ngx_connection_t  *c;
+    ngx_int_t                  rc;
+    ngx_connection_t          *c;
     ngx_http_core_loc_conf_t  *clcf;
 
     r->connection->log->action = "connecting to upstream";
@@ -2699,10 +2699,10 @@ ngx_http_upstream_intercept_errors(ngx_http_request_t *r,
                     ho = ngx_list_push(&r->headers_out.headers);
 
                     if (ho == NULL) {
-                    ngx_http_upstream_finalize_request(r, u,
+                        ngx_http_upstream_finalize_request(r, u,
                                                NGX_HTTP_INTERNAL_SERVER_ERROR);
-                    return NGX_OK;
-                }
+                        return NGX_OK;
+                    }
 
                     *ho = *h;
                     ho->next = NULL;
@@ -4672,11 +4672,11 @@ ngx_http_upstream_process_header_line(ngx_http_request_t *r, ngx_table_elt_t *h,
         return NGX_OK;
     }
 
-        *ph = h;
+    *ph = h;
     h->next = NULL;
 
     return NGX_OK;
-    }
+}
 
 
 static ngx_int_t
@@ -4801,8 +4801,8 @@ static ngx_int_t
 ngx_http_upstream_process_cache_control(ngx_http_request_t *r,
     ngx_table_elt_t *h, ngx_uint_t offset)
 {
-    ngx_table_elt_t     **ph;
-    ngx_http_upstream_t  *u;
+    ngx_table_elt_t      **ph;
+    ngx_http_upstream_t   *u;
 
     u = r->upstream;
     ph = &u->headers_in.cache_control;
@@ -5225,7 +5225,7 @@ ngx_http_upstream_process_vary(ngx_http_request_t *r,
     ngx_table_elt_t *h, ngx_uint_t offset)
 {
     ngx_table_elt_t      **ph;
-    ngx_http_upstream_t  *u;
+    ngx_http_upstream_t   *u;
 
     u = r->upstream;
     ph = &u->headers_in.vary;
@@ -5280,7 +5280,7 @@ ngx_http_upstream_process_vary(ngx_http_request_t *r,
             }
 
             *p++ = ','; *p++ = ' ';
-    }
+        }
 
     } else {
         vary = h->value;

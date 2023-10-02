@@ -2722,7 +2722,7 @@ ngx_http_get_forwarded_addr(ngx_http_request_t *r, ngx_addr_t *addr,
     ngx_table_elt_t *headers, ngx_str_t *value, ngx_array_t *proxies,
     int recursive)
 {
-    ngx_int_t          rc;
+    ngx_int_t         rc;
     ngx_uint_t        found;
     ngx_table_elt_t  *h, *next;
 

@@ -2567,8 +2567,8 @@ static ngx_int_t
 ngx_http_proxy_add_x_forwarded_for_variable(ngx_http_request_t *r,
     ngx_http_variable_value_t *v, uintptr_t data)
 {
-    size_t             len;
-    u_char            *p;
+    size_t            len;
+    u_char           *p;
     ngx_table_elt_t  *h, *xfwd;
 
     v->valid = 1;
@@ -5025,17 +5025,17 @@ ngx_http_proxy_set_ssl(ngx_conf_t *cf, ngx_http_proxy_loc_conf_t *plcf)
             plcf->upstream.ssl_passwords =
                   ngx_ssl_preserve_passwords(cf, plcf->upstream.ssl_passwords);
             if (plcf->upstream.ssl_passwords == NULL) {
-            return NGX_ERROR;
-        }
+                return NGX_ERROR;
+            }
 
         } else {
             if (ngx_ssl_certificate(cf, plcf->upstream.ssl,
                                     &plcf->upstream.ssl_certificate->value,
                                     &plcf->upstream.ssl_certificate_key->value,
                                     plcf->upstream.ssl_passwords)
-        != NGX_OK)
-    {
-        return NGX_ERROR;
+                != NGX_OK)
+            {
+                return NGX_ERROR;
             }
         }
     }

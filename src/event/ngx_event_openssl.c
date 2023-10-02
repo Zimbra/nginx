@@ -2580,10 +2580,10 @@ ngx_ssl_write_handler(ngx_event_t *wev)
 ngx_chain_t *
 ngx_ssl_send_chain(ngx_connection_t *c, ngx_chain_t *in, off_t limit)
 {
-    int          n;
-    ngx_uint_t   flush;
+    int           n;
+    ngx_uint_t    flush;
     ssize_t       send, size, file_size;
-    ngx_buf_t   *buf;
+    ngx_buf_t    *buf;
     ngx_chain_t  *cl;
 
     if (!c->ssl->buffer) {
@@ -2722,6 +2722,7 @@ ngx_ssl_send_chain(ngx_connection_t *c, ngx_chain_t *in, off_t limit)
 
             buf->flush = 0;
             c->buffered &= ~NGX_SSL_BUFFERED;
+
             return in;
         }
 
@@ -3214,6 +3215,7 @@ ngx_ssl_shutdown(ngx_connection_t *c)
 
         goto done;
     }
+
 // Zimbra customizations start here (Jira Tickets: )
     ngx_ssl_ocsp_cleanup(c);
 // Zimbra customizations end here
@@ -3317,9 +3319,9 @@ done:
         return rc;
     }
 
-        SSL_free(c->ssl->connection);
-        c->ssl = NULL;
-        c->recv = ngx_recv;
+    SSL_free(c->ssl->connection);
+    c->ssl = NULL;
+    c->recv = ngx_recv;
 
     return rc;
 }
@@ -4071,7 +4073,7 @@ failed:
     if (cache->fail_time != ngx_time()) {
         cache->fail_time = ngx_time();
         ngx_log_error(NGX_LOG_WARN, c->log, 0,
-                  "could not allocate new session%s", shpool->log_ctx);
+                      "could not allocate new session%s", shpool->log_ctx);
     }
 
     return 0;
@@ -4356,15 +4358,15 @@ ngx_ssl_session_rbtree_insert_value(ngx_rbtree_node_t *temp,
 ngx_int_t
 ngx_ssl_session_ticket_keys(ngx_conf_t *cf, ngx_ssl_t *ssl, ngx_array_t *paths)
 {
-    u_char                         buf[80];
-    size_t                         size;
-    ssize_t                        n;
-    ngx_str_t                     *path;
-    ngx_file_t                     file;
-    ngx_uint_t                     i;
-    ngx_array_t                   *keys;
-    ngx_file_info_t                fi;
-    ngx_pool_cleanup_t            *cln;
+    u_char                 buf[80];
+    size_t                 size;
+    ssize_t                n;
+    ngx_str_t             *path;
+    ngx_file_t             file;
+    ngx_uint_t             i;
+    ngx_array_t           *keys;
+    ngx_file_info_t        fi;
+    ngx_pool_cleanup_t    *cln;
     ngx_ssl_ticket_key_t  *key;
 
     if (paths == NULL
@@ -4517,14 +4519,14 @@ ngx_ssl_ticket_key_callback(ngx_ssl_conn_t *ssl_conn,
     unsigned char *name, unsigned char *iv, EVP_CIPHER_CTX *ectx,
     HMAC_CTX *hctx, int enc)
 {
-    size_t                         size;
-    SSL_CTX                       *ssl_ctx;
-    ngx_uint_t                     i;
-    ngx_array_t                   *keys;
-    ngx_connection_t              *c;
+    size_t                 size;
+    SSL_CTX               *ssl_ctx;
+    ngx_uint_t             i;
+    ngx_array_t           *keys;
+    ngx_connection_t      *c;
     ngx_ssl_ticket_key_t  *key;
-    const EVP_MD                  *digest;
-    const EVP_CIPHER              *cipher;
+    const EVP_MD          *digest;
+    const EVP_CIPHER      *cipher;
 
     c = ngx_ssl_get_connection(ssl_conn);
     ssl_ctx = c->ssl->session_ctx;
@@ -4705,7 +4707,7 @@ ngx_ssl_rotate_ticket_keys(SSL_CTX *ssl_ctx, ngx_log_t *log)
             ngx_ssl_error(NGX_LOG_ALERT, log, 0, "RAND_bytes() failed");
             ngx_shmtx_unlock(&shpool->mutex);
             return NGX_ERROR;
-    }
+        }
 
         key[0].shared = 1;
         key[0].expire = expire;

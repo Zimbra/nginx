@@ -1102,7 +1102,7 @@ ngx_http_dav_location(ngx_http_request_t *r)
         ngx_escape_uri(p, r->uri.data, r->uri.len, NGX_ESCAPE_URI);
 
     } else {
-    r->headers_out.location->value = r->uri;
+        r->headers_out.location->value = r->uri;
     }
 
     return NGX_OK;

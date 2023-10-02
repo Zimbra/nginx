@@ -84,11 +84,11 @@ ngx_event_recvmsg(ngx_event_t *ev)
 
 #if (NGX_HAVE_ADDRINFO_CMSG)
         if (ls->wildcard) {
-                msg.msg_control = &msg_control;
-                msg.msg_controllen = sizeof(msg_control);
+            msg.msg_control = &msg_control;
+            msg.msg_controllen = sizeof(msg_control);
 
             ngx_memzero(&msg_control, sizeof(msg_control));
-            }
+        }
 #endif
 
         n = recvmsg(lc->fd, &msg, 0);

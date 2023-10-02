@@ -477,7 +477,6 @@ ngx_http_parse_request_line(ngx_http_request_t *r, ngx_buf_t *b)
             }
             break;
 
-
         /* check "/.", "//", "%", and "\" (Win32) in URI */
         case sw_after_slash_in_uri:
 
@@ -596,12 +595,11 @@ ngx_http_parse_request_line(ngx_http_request_t *r, ngx_buf_t *b)
                 break;
             default:
                 if (ch < 0x20 || ch == 0x7f) {
-                return NGX_HTTP_PARSE_INVALID_REQUEST;
+                    return NGX_HTTP_PARSE_INVALID_REQUEST;
+                }
+                break;
             }
             break;
-            }
-            break;
-
 
         /* URI */
         case sw_uri:
@@ -629,9 +627,9 @@ ngx_http_parse_request_line(ngx_http_request_t *r, ngx_buf_t *b)
                 break;
             default:
                 if (ch < 0x20 || ch == 0x7f) {
-                return NGX_HTTP_PARSE_INVALID_REQUEST;
-            }
-            break;
+                    return NGX_HTTP_PARSE_INVALID_REQUEST;
+                }
+                break;
             }
             break;
 
@@ -1966,7 +1964,7 @@ ngx_table_elt_t *
 ngx_http_parse_multi_header_lines(ngx_http_request_t *r,
     ngx_table_elt_t *headers, ngx_str_t *name, ngx_str_t *value)
 {
-    u_char            *start, *last, *end, ch;
+    u_char           *start, *last, *end, ch;
     ngx_table_elt_t  *h;
 
     for (h = headers; h; h = h->next) {
@@ -2036,7 +2034,7 @@ ngx_table_elt_t *
 ngx_http_parse_set_cookie_lines(ngx_http_request_t *r,
     ngx_table_elt_t *headers, ngx_str_t *name, ngx_str_t *value)
 {
-    u_char            *start, *last, *end;
+    u_char           *start, *last, *end;
     ngx_table_elt_t  *h;
 
     for (h = headers; h; h = h->next) {

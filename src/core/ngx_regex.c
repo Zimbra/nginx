@@ -10,7 +10,7 @@
 
 
 typedef struct {
-    ngx_flag_t  pcre_jit;
+    ngx_flag_t   pcre_jit;
     ngx_list_t  *studies;
 } ngx_regex_conf_t;
 
@@ -304,13 +304,13 @@ ngx_regex_compile(ngx_regex_compile_t *rc)
            rc->err.len = ngx_snprintf(rc->err.data, rc->err.len,
                               "pcre_compile() failed: %s in \"%V\"",
                                errstr, &rc->pattern)
-                      - rc->err.data;
+                         - rc->err.data;
 
         } else {
            rc->err.len = ngx_snprintf(rc->err.data, rc->err.len,
                               "pcre_compile() failed: %s in \"%V\" at \"%s\"",
                                errstr, &rc->pattern, rc->pattern.data + erroff)
-                      - rc->err.data;
+                         - rc->err.data;
         }
 
         return NGX_ERROR;
@@ -609,7 +609,7 @@ ngx_regex_cleanup(void *data)
         pcre2_match_data_free(ngx_regex_match_data);
         ngx_regex_match_data = NULL;
         ngx_regex_match_data_size = 0;
-}
+    }
 
 #endif
 }
@@ -618,13 +618,13 @@ ngx_regex_cleanup(void *data)
 static ngx_int_t
 ngx_regex_module_init(ngx_cycle_t *cycle)
 {
-    int               opt;
+    int                opt;
 #if !(NGX_PCRE2)
-    const char       *errstr;
+    const char        *errstr;
 #endif
-    ngx_uint_t        i;
-    ngx_list_part_t  *part;
-    ngx_regex_elt_t  *elts;
+    ngx_uint_t         i;
+    ngx_list_part_t   *part;
+    ngx_regex_elt_t   *elts;
     ngx_regex_conf_t  *rcf;
 
     opt = 0;
@@ -639,7 +639,7 @@ ngx_regex_module_init(ngx_cycle_t *cycle)
 #else
         opt = PCRE_STUDY_JIT_COMPILE;
 #endif
-        }
+    }
 
 #endif
 
@@ -717,7 +717,7 @@ ngx_regex_module_init(ngx_cycle_t *cycle)
 static void *
 ngx_regex_create_conf(ngx_cycle_t *cycle)
 {
-    ngx_regex_conf_t  *rcf;
+    ngx_regex_conf_t    *rcf;
     ngx_pool_cleanup_t  *cln;
 
     rcf = ngx_pcalloc(cycle->pool, sizeof(ngx_regex_conf_t));

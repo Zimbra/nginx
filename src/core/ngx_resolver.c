@@ -1794,11 +1794,11 @@ ngx_resolver_process_response(ngx_resolver_t *r, u_char *buf, size_t n,
             rn = ngx_queue_data(q, ngx_resolver_node_t, queue);
 
             if (rn->query) {
-            qident = (rn->query[0] << 8) + rn->query[1];
+                qident = (rn->query[0] << 8) + rn->query[1];
 
-            if (qident == ident) {
-                goto dns_error_name;
-            }
+                if (qident == ident) {
+                    goto dns_error_name;
+                }
             }
 
 #if (NGX_HAVE_INET6)
@@ -3695,13 +3695,13 @@ ngx_resolver_create_name_query(ngx_resolver_t *r, ngx_resolver_node_t *rn,
     query = (ngx_resolver_hdr_t *) p;
 
     if (r->ipv4) {
-    ident = ngx_random();
+        ident = ngx_random();
 
-    ngx_log_debug2(NGX_LOG_DEBUG_CORE, r->log, 0,
-                   "resolve: \"%V\" A %i", name, ident & 0xffff);
+        ngx_log_debug2(NGX_LOG_DEBUG_CORE, r->log, 0,
+                       "resolve: \"%V\" A %i", name, ident & 0xffff);
 
-    query->ident_hi = (u_char) ((ident >> 8) & 0xff);
-    query->ident_lo = (u_char) (ident & 0xff);
+        query->ident_hi = (u_char) ((ident >> 8) & 0xff);
+        query->ident_lo = (u_char) (ident & 0xff);
     }
 
     /* recursion query */
@@ -3764,7 +3764,7 @@ ngx_resolver_create_name_query(ngx_resolver_t *r, ngx_resolver_node_t *rn,
     p = rn->query6;
 
     if (r->ipv4) {
-    ngx_memcpy(p, rn->query, rn->qlen);
+        ngx_memcpy(p, rn->query, rn->qlen);
     }
 
     query = (ngx_resolver_hdr_t *) p;
@@ -4048,7 +4048,7 @@ done:
     name->data = dst;
 
     for ( ;; ) {
-    n = *src++;
+        n = *src++;
 
         if (n == 0) {
             name->len = dst - name->data - 1;
@@ -4063,7 +4063,7 @@ done:
             ngx_strlow(dst, src, n);
             dst += n;
             src += n;
-                *dst++ = '.';
+            *dst++ = '.';
         }
     }
 }

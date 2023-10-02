@@ -674,14 +674,14 @@ ngx_http_v2_header_filter(ngx_http_request_t *r)
 static ngx_int_t
 ngx_http_v2_push_resources(ngx_http_request_t *r)
 {
-    u_char                     *start, *end, *last;
-    ngx_int_t                   rc;
-    ngx_str_t                   path;
-    ngx_uint_t                  i, push;
+    u_char                    *start, *end, *last;
+    ngx_int_t                  rc;
+    ngx_str_t                  path;
+    ngx_uint_t                 i, push;
     ngx_table_elt_t           *h;
-    ngx_http_v2_loc_conf_t     *h2lcf;
-    ngx_http_complex_value_t   *pushes;
-    ngx_str_t                   binary[NGX_HTTP_V2_PUSH_HEADERS];
+    ngx_http_v2_loc_conf_t    *h2lcf;
+    ngx_http_complex_value_t  *pushes;
+    ngx_str_t                  binary[NGX_HTTP_V2_PUSH_HEADERS];
 
     ngx_log_debug0(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
                    "http2 push resources");
@@ -1468,10 +1468,10 @@ ngx_http_v2_send_chain(ngx_connection_t *fc, ngx_chain_t *in, off_t limit)
         }
 
         if (ngx_http_v2_flow_control(h2c, stream) == NGX_DECLINED) {
-        fc->write->active = 1;
-        fc->write->ready = 0;
-        return in;
-    }
+            fc->write->active = 1;
+            fc->write->ready = 0;
+            return in;
+        }
     }
 
     if (in->buf->tag == (ngx_buf_tag_t) &ngx_http_v2_filter_get_shadow) {

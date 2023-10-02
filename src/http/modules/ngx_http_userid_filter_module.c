@@ -319,9 +319,9 @@ ngx_http_userid_set_variable(ngx_http_request_t *r,
 static ngx_http_userid_ctx_t *
 ngx_http_userid_get_uid(ngx_http_request_t *r, ngx_http_userid_conf_t *conf)
 {
-    ngx_str_t                src, dst;
+    ngx_str_t               src, dst;
     ngx_table_elt_t        *cookie;
-    ngx_http_userid_ctx_t   *ctx;
+    ngx_http_userid_ctx_t  *ctx;
 
     ctx = ngx_http_get_module_ctx(r, ngx_http_userid_filter_module);
 

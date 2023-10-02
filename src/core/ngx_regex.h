@@ -69,7 +69,7 @@ ngx_int_t ngx_regex_exec(ngx_regex_t *re, ngx_str_t *s, int *captures,
 #if (NGX_PCRE2)
 #define ngx_regex_exec_n       "pcre2_match()"
 #else
-#define ngx_regex_exec_n      "pcre_exec()"
+#define ngx_regex_exec_n       "pcre_exec()"
 #endif
 
 ngx_int_t ngx_regex_exec_array(ngx_array_t *a, ngx_str_t *s, ngx_log_t *log);
