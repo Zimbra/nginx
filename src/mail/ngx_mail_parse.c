@@ -347,6 +347,7 @@ ngx_mail_imap_parse_command(ngx_mail_session_t *s)
                 break;
             case CR:
             case LF:
+            case '\x0':
                 goto invalid;
             default:
                 if ((ch < 'A' || ch > 'Z') && (ch < 'a' || ch > 'z')
