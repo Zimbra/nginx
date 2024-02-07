@@ -115,7 +115,7 @@ typedef struct {
     ngx_msec_t              timeout;
     ngx_msec_t              resolver_timeout;
 
-    ngx_str_t               server_name;
+    ngx_uint_t              max_errors;
 
     ngx_str_t               master_auth_username;
     ngx_str_t               master_auth_password;
@@ -128,6 +128,7 @@ typedef struct {
 
     ngx_str_t               default_realm;
 
+    ngx_str_t               server_name;
 
     u_char                 *file_name;
     ngx_uint_t              line;
@@ -284,14 +285,15 @@ typedef struct {
     ngx_uint_t              command;
     ngx_array_t             args;
 
+    ngx_uint_t              errors;
     ngx_uint_t              login_attempt;
 
     /* used to parse POP3/IMAP/SMTP command */
 
     ngx_uint_t              state;
+    u_char                 *tag_start;
     u_char                 *cmd_start;
     u_char                 *arg_start;
-    u_char                 *arg_end;
     ngx_uint_t              literal_len;
     ngx_uint_t              eargs;          /* expected #args for command */
 
@@ -389,7 +391,7 @@ typedef struct {
 #define NGX_MAIL_AUTH_NONE_ENABLED      0x0080
 
 
-#define NGX_MAIL_PARSE_INVALID_COMMAND   20
+#define NGX_MAIL_PARSE_INVALID_COMMAND  20
 #define NGX_MAIL_PARSE_INVALID_AUTH_MECH 30
 #define NGX_MAIL_AUTH_ABORT              40
 #define NGX_MAIL_AUTH_ARGUMENT           50
@@ -409,6 +411,7 @@ typedef ngx_int_t (*ngx_mail_parse_command_pt)(ngx_mail_session_t *s);
 
 struct ngx_mail_protocol_s {
     ngx_str_t                   name;
+    ngx_str_t                   alpn;
     in_port_t                   port[4];
     ngx_uint_t                  type;
 

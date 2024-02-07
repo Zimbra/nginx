@@ -53,6 +53,8 @@ if [ $NGX_LIBATOMIC != NO ]; then
     . auto/lib/libatomic/conf
 fi
 
+# Zimbra customizations start here: Implement SASL Authentication (Jira Tickets: )
 if [ $USE_SASL = YES ]; then
     . auto/lib/sasl/conf
 fi
+# Zimbra customizations end here

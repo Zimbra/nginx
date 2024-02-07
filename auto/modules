@@ -63,6 +63,7 @@ if [ $HTTP = YES ]; then
 
     ngx_module_type=HTTP
 
+    # Zimbra customizations start here: Adding ngx_http_upstream_fair (Jira Tickets: )
     if :; then
         ngx_module_name="ngx_http_module \
                          ngx_http_core_module \
@@ -96,11 +97,16 @@ if [ $HTTP = YES ]; then
 
         . auto/module
     fi
-
+    # Zimbra customizations end here (Jira Tickets: )
 
     if [ $HTTP_CACHE = YES ]; then
         have=NGX_HTTP_CACHE . auto/have
         HTTP_SRCS="$HTTP_SRCS $HTTP_FILE_CACHE_SRCS"
+    fi
+
+
+    if [ $HTTP_V2 = YES ]; then
+        HTTP_SRCS="$HTTP_SRCS $HTTP_HUFF_SRCS"
     fi
 
 
@@ -416,8 +422,6 @@ if [ $HTTP = YES ]; then
         ngx_module_srcs="src/http/v2/ngx_http_v2.c \
                          src/http/v2/ngx_http_v2_table.c \
                          src/http/v2/ngx_http_v2_encode.c \
-                         src/http/v2/ngx_http_v2_huff_decode.c \
-                         src/http/v2/ngx_http_v2_huff_encode.c \
                          src/http/v2/ngx_http_v2_module.c"
         ngx_module_libs=
         ngx_module_link=$HTTP_V2
@@ -938,10 +942,12 @@ if [ $MAIL != NO ]; then
 
     ngx_module_incs=
 
+    # Zimbra customizations start here: Implement SASL Authentication (Jira Tickets: )
     if [ $MAIL_SASL = YES ]; then
         USE_SASL=YES
         have=NGX_MAIL_SASL . auto/have
     fi
+    # Zimbra customizations end
 
     if [ $MAIL_SSL = YES ]; then
         USE_OPENSSL=YES
@@ -1289,11 +1295,11 @@ if [ $USE_PCRE = YES ]; then
     . auto/module
 fi
 
-
+# Zimbra customizations start here: Adding Nginx memcache and zm_lookup module (Jira Tickets: )
 modules="$CORE_MODULES $EVENT_MODULES"
 modules="$modules $MEMCACHE_MODULE"
 modules="$modules $ZM_LOOKUP_MODULE"
-
+# Zimbra customizations end here
 
 # thread pool module should be initialized after events
 if [ $USE_THREADS = YES ]; then

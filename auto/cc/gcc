@@ -50,8 +50,10 @@ esac
 
 #NGX_GCC_OPT="-O2"
 #NGX_GCC_OPT="-Os"
+# Zimbra customizations start here (Jira Tickets: )
 #NGX_GCC_OPT="-O"
 NGX_GCC_OPT="-O0"
+# Zimbra customizations end here
 
 #CFLAGS="$CFLAGS -fomit-frame-pointer"
 

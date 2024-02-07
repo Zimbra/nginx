@@ -140,17 +140,19 @@ ngx_copy(u_char *dst, u_char *src, size_t len)
 #endif
 
 
-#define ngx_memmove(dst, src, n)   (void) memmove(dst, src, n)
-#define ngx_movemem(dst, src, n)   (((u_char *) memmove(dst, src, n)) + (n))
+#define ngx_memmove(dst, src, n)  (void) memmove(dst, src, n)
+#define ngx_movemem(dst, src, n)  (((u_char *) memmove(dst, src, n)) + (n))
 
 
 /* msvc and icc7 compile memcmp() to the inline loop */
-#define ngx_memcmp(s1, s2, n)  memcmp((const char *) s1, (const char *) s2, n)
+#define ngx_memcmp(s1, s2, n)     memcmp(s1, s2, n)
 
 
 u_char *ngx_cpystrn(u_char *dst, u_char *src, size_t n);
 u_char *ngx_pstrdup(ngx_pool_t *pool, ngx_str_t *src);
+// Zimbra customizations start here (Jira Tickets: )
 ngx_str_t *ngx_pstrcpy(ngx_pool_t *pool, ngx_str_t *src);
+// Zimbra customizations end here
 u_char * ngx_cdecl ngx_sprintf(u_char *buf, const char *fmt, ...);
 u_char * ngx_cdecl ngx_snprintf(u_char *buf, size_t max, const char *fmt, ...);
 u_char * ngx_cdecl ngx_slprintf(u_char *buf, u_char *last, const char *fmt,

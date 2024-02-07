@@ -109,10 +109,9 @@ ngx_mail_imap_init_protocol(ngx_event_t *rev)
 void
 ngx_mail_imap_auth_state(ngx_event_t *rev)
 {
-    u_char              *p, *dst, *src, *end;
-    ngx_str_t           *arg;
+    u_char              *p;
     ngx_int_t            rc;
-    ngx_uint_t           tag, i;
+    ngx_uint_t           tag;
     ngx_connection_t    *c;
     ngx_mail_session_t  *s;
 
@@ -165,27 +164,6 @@ ngx_mail_imap_auth_state(ngx_event_t *rev)
 
         ngx_log_debug1(NGX_LOG_DEBUG_MAIL, c->log, 0, "imap auth command: %i",
                        s->command);
-
-        if (s->backslash) {
-
-            arg = s->args.elts;
-
-            for (i = 0; i < s->args.nelts; i++) {
-                dst = arg[i].data;
-                end = dst + arg[i].len;
-
-                for (src = dst; src < end; dst++) {
-                    *dst = *src;
-                    if (*src++ == '\\') {
-                        *dst = *src++;
-                    }
-                }
-
-                arg[i].len = dst - arg[i].data;
-            }
-
-            s->backslash = 0;
-        }
 
         switch (s->mail_state) {
 
@@ -268,6 +246,10 @@ ngx_mail_imap_auth_state(ngx_event_t *rev)
     } else if (rc == NGX_IMAP_NEXT) {
         tag = 0;
         ngx_str_set(&s->out, imap_next);
+    }
+
+    if (s->buffer->pos < s->buffer->last) {
+        s->blocked = 1;
     }
 
     switch (rc) {
@@ -378,13 +360,14 @@ ngx_mail_imap_auth_state(ngx_event_t *rev)
 
         if (s->state) {
             /* preserve tag */
-            s->arg_start = s->buffer->start + s->tag.len;
-            s->buffer->pos = s->arg_start;
-            s->buffer->last = s->arg_start;
+            s->arg_start = s->buffer->pos;
 
         } else {
+            if (s->buffer->pos == s->buffer->last) {
             s->buffer->pos = s->buffer->start;
             s->buffer->last = s->buffer->start;
+            }
+
             s->tag.len = 0;
         }
     }
@@ -621,6 +604,8 @@ ngx_mail_imap_starttls(ngx_mail_session_t *s, ngx_connection_t *c)
     if (c->ssl == NULL) {
         sslcf = ngx_mail_get_module_srv_conf(s, ngx_mail_ssl_module);
         if (sslcf->starttls) {
+            s->buffer->pos = s->buffer->start;
+            s->buffer->last = s->buffer->start;
             c->read->handler = ngx_mail_starttls_handler;
             return NGX_OK;
         }

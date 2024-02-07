@@ -99,7 +99,9 @@ typedef struct {
     ngx_uint_t                       max_conns;
     ngx_uint_t                       max_fails;
     time_t                           fail_timeout;
+// Zimbra customizations start here (Jira Tickets: )	
     ngx_str_t                        version;
+// Zimbra customizations end here	
     ngx_msec_t                       slow_start;
     ngx_uint_t                       down;
 
@@ -116,7 +118,9 @@ typedef struct {
 #define NGX_HTTP_UPSTREAM_FAIL_TIMEOUT  0x0008
 #define NGX_HTTP_UPSTREAM_DOWN          0x0010
 #define NGX_HTTP_UPSTREAM_BACKUP        0x0020
+// Zimbra customizations start here (Jira Tickets: )
 #define NGX_HTTP_UPSTREAM_VERSION       0x0040
+// Zimbra customizations end here
 #define NGX_HTTP_UPSTREAM_MAX_CONNS     0x0100
 
 
@@ -133,9 +137,9 @@ struct ngx_http_upstream_srv_conf_s {
     in_port_t                        port;
     ngx_uint_t                       no_port;  /* unsigned no_port:1 */
 
-    // added by zimbra to support async upstream peer init
+// Zimbra customizations start here (Jira Tickets: )    // added by zimbra to support async upstream peer init
     void (* connect)(ngx_http_request_t *r, ngx_http_upstream_t *u);
-
+// Zimbra customizations end here
 #if (NGX_HTTP_UPSTREAM_ZONE)
     ngx_shm_zone_t                  *shm_zone;
 #endif
@@ -239,6 +243,10 @@ typedef struct {
     ngx_http_complex_value_t        *ssl_name;
     ngx_flag_t                       ssl_server_name;
     ngx_flag_t                       ssl_verify;
+
+    ngx_http_complex_value_t        *ssl_certificate;
+    ngx_http_complex_value_t        *ssl_certificate_key;
+    ngx_array_t                     *ssl_passwords;
 #endif
 
     ngx_str_t                        module;
@@ -281,23 +289,21 @@ typedef struct {
 
     ngx_table_elt_t                 *last_modified;
     ngx_table_elt_t                 *location;
-    ngx_table_elt_t                 *accept_ranges;
+    ngx_table_elt_t                 *refresh;
     ngx_table_elt_t                 *www_authenticate;
     ngx_table_elt_t                 *transfer_encoding;
     ngx_table_elt_t                 *vary;
 
-#if (NGX_HTTP_GZIP)
-    ngx_table_elt_t                 *content_encoding;
-#endif
-
-    ngx_array_t                      cache_control;
-    ngx_array_t                      cookies;
+    ngx_table_elt_t                 *cache_control;
+    ngx_table_elt_t                 *set_cookie;
 
     off_t                            content_length_n;
     time_t                           last_modified_time;
 
     unsigned                         connection_close:1;
     unsigned                         chunked:1;
+    unsigned                         no_cache:1;
+    unsigned                         expired:1;
 } ngx_http_upstream_headers_in_t;
 
 
