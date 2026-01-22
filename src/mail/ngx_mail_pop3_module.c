@@ -285,22 +285,20 @@ ngx_mail_pop3_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
         (NGX_MAIL_AUTH_PLAIN_ENABLED | NGX_MAIL_AUTH_GSSAPI_ENABLED)) {
         p1 = ngx_cpymem(p1,"SASL",sizeof("SASL") - 1);
         p2 = ngx_cpymem(p2,"SASL",sizeof("SASL") - 1);
-        p3 = ngx_cpymem(p3,"SASL",sizeof("SASL") - 1);
 
         if (conf->auth_methods & NGX_MAIL_AUTH_PLAIN_ENABLED) {
             p1 = ngx_cpymem(p1," PLAIN",sizeof(" PLAIN") - 1);
             p2 = ngx_cpymem(p2," PLAIN",sizeof(" PLAIN") - 1);
-            p3 = ngx_cpymem(p3," PLAIN",sizeof(" PLAIN") - 1);
         }
         if (conf->auth_methods & NGX_MAIL_AUTH_GSSAPI_ENABLED) {
             p1 = ngx_cpymem(p1," GSSAPI",sizeof(" GSSAPI") - 1);
             p2 = ngx_cpymem(p2," GSSAPI",sizeof(" GSSAPI") - 1);
             p3 = ngx_cpymem(p3," GSSAPI",sizeof(" GSSAPI") - 1);
+            *p3++ = CR; *p3++ = LF;
         }
 
         *p1++ = CR; *p1++ = LF;
         *p2++ = CR; *p2++ = LF;
-        *p3++ = CR; *p3++ = LF;
     }
 
     p2 = ngx_cpymem(p2,"STLS" CRLF, sizeof("STLS" CRLF)-1);
