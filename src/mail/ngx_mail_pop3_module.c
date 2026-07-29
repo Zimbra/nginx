@@ -211,11 +211,18 @@ ngx_mail_pop3_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
 
     s1 = sizeof("+OK Capability list follows" CRLF) - 1
          + sizeof("." CRLF)-1;
-    if (conf->auth_methods &
-        (NGX_MAIL_AUTH_PLAIN_ENABLED | NGX_MAIL_AUTH_GSSAPI_ENABLED))
-         s1 += sizeof("SASL" CRLF)-1;
     s2 = s1;
     s3 = s1;
+
+    if (conf->auth_methods &
+        (NGX_MAIL_AUTH_PLAIN_ENABLED | NGX_MAIL_AUTH_GSSAPI_ENABLED)) {
+        s1 += sizeof("SASL" CRLF)-1;
+        s2 += sizeof("SASL" CRLF)-1;
+    }
+
+    if (conf->auth_methods & NGX_MAIL_AUTH_GSSAPI_ENABLED) {
+        s3 += sizeof("SASL" CRLF)-1;
+    }
 
     c = conf->capabilities.elts;
     for (i=0; i<conf->capabilities.nelts; ++i)
@@ -230,7 +237,6 @@ ngx_mail_pop3_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
     if (conf->auth_methods & NGX_MAIL_AUTH_PLAIN_ENABLED) {
         s1 += sizeof(" PLAIN") - 1;
         s2 += sizeof(" PLAIN") - 1;
-        s3 += sizeof(" PLAIN") - 1;
     }
     if (conf->auth_methods & NGX_MAIL_AUTH_GSSAPI_ENABLED) {
         s1 += sizeof(" GSSAPI") - 1;
@@ -241,7 +247,7 @@ ngx_mail_pop3_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
     s2 += sizeof("STLS" CRLF) - 1;
     s3 += sizeof("STLS" CRLF) - 1;
 
-    p1 = ngx_pnalloc(cf->pool,s1);
+    p1 = ngx_palloc(cf->pool,s1);
     if (p1 == NULL) {
         return NGX_CONF_ERROR;
     }
@@ -273,6 +279,7 @@ ngx_mail_pop3_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
     {
         p1 = ngx_cpymem(p1,c[i].data,c[i].len);
         p2 = ngx_cpymem(p2,c[i].data,c[i].len);
+
         *p1++ = CR; *p1++ = LF;
         *p2++ = CR; *p2++ = LF;
         if (ngx_strcasecmp(c[i].data, (u_char *) "USER") != 0) {
@@ -293,12 +300,16 @@ ngx_mail_pop3_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
         if (conf->auth_methods & NGX_MAIL_AUTH_GSSAPI_ENABLED) {
             p1 = ngx_cpymem(p1," GSSAPI",sizeof(" GSSAPI") - 1);
             p2 = ngx_cpymem(p2," GSSAPI",sizeof(" GSSAPI") - 1);
-            p3 = ngx_cpymem(p3," GSSAPI",sizeof(" GSSAPI") - 1);
-            *p3++ = CR; *p3++ = LF;
         }
 
         *p1++ = CR; *p1++ = LF;
         *p2++ = CR; *p2++ = LF;
+    }
+
+    if (conf->auth_methods & NGX_MAIL_AUTH_GSSAPI_ENABLED) {
+        p3 = ngx_cpymem(p3,"SASL",sizeof("SASL") - 1);
+        p3 = ngx_cpymem(p3," GSSAPI",sizeof(" GSSAPI") - 1);
+        *p3++ = CR; *p3++ = LF;
     }
 
     p2 = ngx_cpymem(p2,"STLS" CRLF, sizeof("STLS" CRLF)-1);
@@ -316,7 +327,7 @@ ngx_mail_pop3_merge_srv_conf(ngx_conf_t *cf, void *parent, void *child)
         conf->auth_capability = ngx_mail_pop3_auth_plain_capability;
     }
 
-    p = ngx_pnalloc(cf->pool,conf->greeting.len + 2);
+    p = ngx_palloc(cf->pool,conf->greeting.len + 2);
     if (p == NULL) {
         return NGX_CONF_ERROR;
     }
